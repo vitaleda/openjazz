@@ -82,6 +82,16 @@
 	#define NO_RESIZE
 
 	#define FULLSCREEN_FLAGS (SDL_SWSURFACE | SDL_TOPSCR | SDL_CONSOLEBOTTOM)
+#elif defined(__vita__)
+	#define DEFAULT_SCREEN_WIDTH 320
+	#define DEFAULT_SCREEN_HEIGHT 200
+	#define VITA_SCREEN_WIDTH 960
+	#define VITA_SCREEN_HEIGHT 540
+
+	#define FULLSCREEN_ONLY
+	#define NO_RESIZE
+
+	#define FULLSCREEN_FLAGS (SDL_HWSURFACE)
 #else
 	#define DEFAULT_SCREEN_WIDTH SW
 	#define DEFAULT_SCREEN_HEIGHT SH
@@ -100,6 +110,7 @@ class Video {
 
 	private:
 		SDL_Surface* screen; ///< Output surface
+		SDL_Surface* mainScreen;
 
 		// Palettes
 		SDL_Color*   currentPalette; ///< Current palette

@@ -646,7 +646,7 @@ int SetupMenu::setupMain () {
 
 			case 1:
 
-#if !defined(CAANOO) && !defined(WIZ) && !defined(GP2X) && !defined(PSP)
+#if !defined(CAANOO) && !defined(WIZ) && !defined(GP2X) && !defined(PSP) && !defined(__vita__)
 				if (setupKeyboard() == E_QUIT) return E_QUIT;
 #else
 				if (message("FEATURE NOT AVAILABLE") == E_QUIT) return E_QUIT;
@@ -656,7 +656,7 @@ int SetupMenu::setupMain () {
 
 			case 2:
 
-#if !defined(DINGOO) && !defined(PSP)
+#if !defined(DINGOO) && !defined(PSP) && !defined(__vita__)
 				if (setupJoystick() == E_QUIT) return E_QUIT;
 #else
 				if (message("FEATURE NOT AVAILABLE") == E_QUIT) return E_QUIT;

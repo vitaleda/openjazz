@@ -35,6 +35,10 @@
 
 #include <string.h>
 
+#ifdef __vita__
+#include <psp2/kernel/clib.h>
+#define printf sceClibPrintf
+#endif
 
 /**
  * Check if a file exists.

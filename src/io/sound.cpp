@@ -57,7 +57,7 @@
 	#include <xmp.h>
 #endif
 
-#if defined(__SYMBIAN32__) || defined(_3DS) || defined(PSP)
+#if defined(__SYMBIAN32__) || defined(_3DS) || defined(PSP) || defined(__vita__)
 	#define SOUND_FREQ 22050
 #else
 	#define SOUND_FREQ 44100
@@ -68,7 +68,7 @@
 	#ifdef __SYMBIAN32__
 		#define MUSIC_RESAMPLEMODE MODPLUG_RESAMPLE_LINEAR
 		#define MUSIC_FLAGS MODPLUG_ENABLE_MEGABASS
-	#elif defined(CAANOO) || defined(WIZ) || defined(GP2X) || defined(DINGOO) || defined(PSP)
+	#elif defined(CAANOO) || defined(WIZ) || defined(GP2X) || defined(DINGOO) || defined(PSP) || defined(__vita__)
 		#define MUSIC_RESAMPLEMODE MODPLUG_RESAMPLE_LINEAR
 		#define MUSIC_FLAGS 0
 	#else
