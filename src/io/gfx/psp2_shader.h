@@ -6,7 +6,7 @@
 #ifndef PSP2_SHADER_H
 #define PSP2_SHADER_H
 
-#include <vita2d.h>
+#include <vita2d_fbo.h>
 
 #ifdef __cplusplus
 extern "C" {
