@@ -42,6 +42,10 @@
 
 #include <string.h>
 
+#ifdef __vita__
+#include <kbdvita.h>
+#endif
+
 
 /**
  * Show the "(esc) quits" string.
@@ -279,6 +283,14 @@ int Menu::textInput (const char* request, char*& text) {
 		if (controls.release(C_LEFT) && (cursor > 0)) cursor--;
 
 		if (controls.release(C_RIGHT) && (cursor < strlen(input))) cursor++;
+
+#ifdef __vita__
+		if (controls.release(C_STATS)) {
+			char* res = kbdvita_get(request, input, STRING_LENGTH);
+			input = (res != NULL && res != input) ? res : input;
+			cursor = strlen(input);
+		}
+#endif
 
 		if (controls.release(C_ENTER)) {
 

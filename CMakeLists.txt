@@ -91,8 +91,11 @@ target_link_libraries(${VITA_APPNAME}
   vita2d_fbo
   vitashaders
   modplug
+  kbdvita
   z
+  SceAppUtil_stub
   SceAudio_stub
+  SceCommonDialog_stub
   SceCtrl_stub
   SceDisplay_stub
   SceGxm_stub
