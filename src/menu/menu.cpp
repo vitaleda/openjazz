@@ -287,8 +287,10 @@ int Menu::textInput (const char* request, char*& text) {
 #ifdef __vita__
 		if (controls.release(C_STATS)) {
 			char* res = kbdvita_get(request, input, STRING_LENGTH);
-			input = (res != NULL && res != input) ? res : input;
-			cursor = strlen(input);
+			if (res != NULL) {
+				strcpy(input, res);
+				cursor = strlen(input);
+			}
 		}
 #endif
 
