@@ -200,9 +200,10 @@ bool Video::reset (int width, int height) {
 	//Enable sharp-bilinear-simple shader for sharp pixels without distortion.
 	shader = setPSP2Shader(SHARP_BILINEAR_SIMPLE);
 
-	mainScreen = SDL_SetVideoMode(screenW * 2, screenH * 2, 16, FULLSCREEN_FLAGS);
+	screen = SDL_SetVideoMode(screenW, screenH, 8, FULLSCREEN_FLAGS);
+
 	int sh = VITA_SCREEN_HEIGHT;
-	int sw = (float)mainScreen->w * ((float)sh / (float)mainScreen->h);
+	int sw = (float)screen->w * ((float)sh / (float)screen->h);
 	int x = (VITA_SCREEN_WIDTH - sw) / 2;
 	SDL_SetVideoModeScaling(x, 0, sw, sh);
 
@@ -211,8 +212,6 @@ bool Video::reset (int width, int height) {
 	//https://github.com/rsn8887/SDL-Vita/tree/SDL12
 	//to compile
 	SDL_SetVideoModeBilinear(1);
-
-	screen = SDL_SetVideoMode(SW, SH, 8, FULLSCREEN_FLAGS);
 #elif defined(NO_RESIZE)
 	screen = SDL_SetVideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, 8, FULLSCREEN_FLAGS);
 #else
@@ -430,10 +429,6 @@ void Video::expose () {
 
 	SDL_SetPalette(screen, SDL_LOGPAL, logicalPalette, 0, 256);
 	SDL_SetPalette(screen, SDL_PHYSPAL, currentPalette, 0, 256);
-	if (mainScreen != NULL) {
-		SDL_BlitSurface(screen, NULL, mainScreen, NULL);
-		SDL_Flip(mainScreen);
-	}
 
 	return;
 

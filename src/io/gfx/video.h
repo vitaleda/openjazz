@@ -110,7 +110,6 @@ class Video {
 
 	private:
 		SDL_Surface* screen; ///< Output surface
-		SDL_Surface* mainScreen;
 
 		// Palettes
 		SDL_Color*   currentPalette; ///< Current palette
