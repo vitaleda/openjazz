@@ -290,6 +290,7 @@ int Menu::textInput (const char* request, char*& text) {
 			if (res != NULL) {
 				strcpy(input, res);
 				cursor = strlen(input);
+				input[cursor] = 0;
 			}
 		}
 #endif
