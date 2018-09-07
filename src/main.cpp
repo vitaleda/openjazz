@@ -55,6 +55,8 @@
 	#include <pspdebug.h>
 	#include <psputility.h>
 	#include <pspdisplay.h>
+#elif defined(__vita__)
+	#include <imgui_vita.h>
 #elif defined(_3DS)
 	#include <3ds.h>
 #elif defined(__HAIKU__)
@@ -564,6 +566,9 @@ int main(int argc, char *argv[]) {
 	pspDebugScreenInit();
 	atexit(sceKernelExitGame);
 	sceIoChdir("ms0:/PSP/GAME/OpenJazz");
+#elif __vita__
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
 #endif
 	// Initialise SDL
 
