@@ -43,6 +43,8 @@
     #else
         #define CONFIG_FILE "c:\\data\\openjazz\\openjazz.cfg"
     #endif
+#elif __vita__
+    #define CONFIG_FILE "ux0:data/jazz/openjazz.cfg"
 #else
     #define CONFIG_FILE "openjazz.cfg"
 #endif
