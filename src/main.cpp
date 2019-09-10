@@ -19,10 +19,6 @@
  * OpenJazz is distributed under the terms of
  * the GNU General Public License, version 2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
  * @par Description:
  * Contains the main function.
  *
@@ -59,6 +55,10 @@
 	#include <imgui_vita.h>
 #elif defined(_3DS)
 	#include <3ds.h>
+#elif defined(WII)
+	#include <unistd.h>
+	#include <fat.h>
+	#include "platforms/wii.h"
 #elif defined(__HAIKU__)
 	#include <Alert.h>
 	#include <FindDirectory.h>
@@ -168,9 +168,10 @@ void startUp (int argc, char *argv[]) {
 
 	}
 
+	// Use the path of the program, but not on Wii as this does crash in
+	// dolphin emulator. Also is not needed, because CWD is used there
 
-	// Use the path of the program
-
+#ifndef WII
 	count = strlen(argv[0]) - 1;
 
 	// Search for directory separator
@@ -188,6 +189,7 @@ void startUp (int argc, char *argv[]) {
 		firstPath->path[count + 1] = 0;
 
 	}
+#endif
 
 
 	// Use the user's home directory, if available
@@ -403,6 +405,10 @@ int play () {
 	MainMenu *mainMenu = NULL;
 	JJ1Scene *scene = NULL;
 
+	// Start the opening music
+
+	playMusic("MENUSNG.PSM");
+
 	// Load and play the startup cutscene
 
 	try {
@@ -478,10 +484,11 @@ int play () {
  *
  * @param type Type of loop. Normal, typing, or input configuration
  * @param paletteEffects Palette effects to apply to video output
+ * @param effectsStopped Whether the effects should be applied without advancing
  *
  * @return Error code
  */
-int loop (LoopType type, PaletteEffect* paletteEffects) {
+int loop (LoopType type, PaletteEffect* paletteEffects, bool effectsStopped) {
 
 	SDL_Event event;
 	int prevTicks, ret;
@@ -500,7 +507,7 @@ int loop (LoopType type, PaletteEffect* paletteEffects) {
 	}
 
 	// Show what has been drawn
-	video.flip(globalTicks - prevTicks, paletteEffects);
+	video.flip(globalTicks - prevTicks, paletteEffects, effectsStopped);
 
 
 	// Process system events
@@ -562,14 +569,20 @@ int main(int argc, char *argv[]) {
 
 	int ret;
 
+	// Early platform init
+
 #ifdef PSP
 	pspDebugScreenInit();
 	atexit(sceKernelExitGame);
 	sceIoChdir("ms0:/PSP/GAME/OpenJazz");
+#elif defined(WII)
+	fatInitDefault();
+	Wii_SetConsole();
 #elif __vita__
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
 #endif
+
 	// Initialise SDL
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK) < 0) {

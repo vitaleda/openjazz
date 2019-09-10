@@ -17,10 +17,6 @@
  * OpenJazz is distributed under the terms of
  * the GNU General Public License, version 2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
  * @par Description:
  * Deals with the running of the main menu and its generic sub-menus.
  *
@@ -81,7 +77,7 @@ MainMenu::MainMenu () {
 
 	}
 
-
+	// only available in Holiday Hare 94/95
 	if (file->getSize() > 200000) {
 
 		time(&currentTime);
@@ -272,7 +268,7 @@ int MainMenu::main () {
 
 	video.setPalette(palette);
 
-	playMusic("menusng.psm");
+	playMusic("MENUSNG.PSM");
 
 
 	// Demo timeout
@@ -407,7 +403,7 @@ int MainMenu::main () {
 
 				delete game;
 
-				playMusic("menusng.psm");
+				playMusic("MENUSNG.PSM");
 
 				// Restore the main menu palette
 				video.setPalette(palette);

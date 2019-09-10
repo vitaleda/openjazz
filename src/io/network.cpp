@@ -17,10 +17,6 @@
  * OpenJazz is distributed under the terms of
  * the GNU General Public License, version 2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
  * @par Description:
  * Deals with a platform-specific networking API.
  *
@@ -48,7 +44,9 @@
 		#include <sys/types.h>
 		#include <sys/socket.h>
 		#include <arpa/inet.h>
+		#include <sys/select.h>
 		#include <sys/ioctl.h>
+		#include <netinet/in.h>
 		#include <unistd.h>
 		#include <errno.h>
 		#include <string.h>
@@ -56,7 +54,9 @@
 	#ifdef __APPLE__
 		#define MSG_NOSIGNAL 0
 	#endif
-#elif defined USE_SDL_NET
+#elif defined(WII)
+	#include <network.h>
+#elif defined(USE_SDL_NET)
 	#include <arpa/inet.h>
 #endif
 
@@ -74,6 +74,12 @@ Network::Network () {
 	WSAStartup(MAKEWORD(1, 0), &WSAData);
 	#endif
 #elif defined USE_SDL_NET
+#  ifdef WII
+	char ip[16];
+
+	// Initialize Wii networking (using dhcp)
+	if_config(ip, NULL, NULL, true, 20);
+#  endif
 	SDLNet_Init();
 #endif
 
@@ -94,6 +100,9 @@ Network::~Network () {
 	#endif
 #elif defined USE_SDL_NET
 	SDLNet_Quit();
+#  ifdef WII
+	net_deinit();
+#  endif
 #endif
 
 	return;
